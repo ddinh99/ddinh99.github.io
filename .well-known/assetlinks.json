@@ -1,0 +1,14 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.daigame.gomokuvalley",
+      "sha256_cert_fingerprints": [
+        "84:E8:8A:40:62:47:0B:1B:C2:39:7B:0C:4C:80:E9:DF:FE:56:05:98:3B:E3:BC:5E:41:C2:5C:85:18:D2:80:14",
+        "36:37:41:66:EF:46:92:6C:1F:09:95:51:0F:EF:DC:C3:91:A7:92:0F:01:F5:26:CC:04:4E:77:8A:12:9F:AD:C6",
+        "DE:28:6F:C5:44:B5:98:DA:58:D1:BC:87:96:8B:53:8F:FB:6A:37:05:2E:A6:A1:F4:CC:70:58:17:7B:18:00:6A"
+      ]
+    }
+  }
+]
