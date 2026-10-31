@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gomoku Valley Invite</title>
+<meta name="description" content="You've been invited to a game of Gomoku in Gomoku Valley.">
+<style>
+  :root { --sea: #102c40; --gold: #f4c553; --wood: #e2b873; --ink: #fff8e8; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center;
+    justify-content: center; padding: 24px 16px;
+    background: radial-gradient(circle at 50% 20%, #1c4a68, var(--sea));
+    color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    text-align: center;
+  }
+  main { width: 100%; max-width: 380px; }
+  .board {
+    width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 18px;
+    background:
+      repeating-linear-gradient(0deg, transparent 0 23px, #5a3a1a 23px 24px),
+      repeating-linear-gradient(90deg, transparent 0 23px, #5a3a1a 23px 24px),
+      var(--wood);
+    position: relative; box-shadow: 0 8px 24px #0006;
+  }
+  .stone { position: absolute; width: 20px; height: 20px; border-radius: 50%; }
+  .b { background: radial-gradient(circle at 35% 30%, #6a717c, #07090c); }
+  .w { background: radial-gradient(circle at 35% 30%, #fff, #a9b0ba); }
+  h1 { margin: 0 0 8px; font-size: 28px; color: var(--gold); }
+  p { margin: 0 0 20px; line-height: 1.5; opacity: 0.9; }
+  .code {
+    display: inline-block; margin: 0 0 20px; padding: 10px 18px; border-radius: 12px;
+    background: #ffffff14; border: 1px solid #ffffff33;
+    font-size: 26px; font-weight: 900; letter-spacing: 4px;
+  }
+  .code small { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0; opacity: 0.7; }
+  a.button {
+    display: block; padding: 16px; border-radius: 999px; text-decoration: none;
+    background: var(--gold); color: var(--sea); font-weight: 900; font-size: 18px;
+  }
+  a.button + a.button { margin-top: 12px; background: #ffffff1f; color: var(--ink); border: 1px solid #ffffff4d; }
+  .hint { margin-top: 16px; font-size: 13px; opacity: 0.7; }
+</style>
+</head>
+<body>
+<main>
+  <div class="board" aria-hidden="true">
+    <span class="stone b" style="left:14px;top:14px"></span>
+    <span class="stone b" style="left:38px;top:38px"></span>
+    <span class="stone w" style="left:62px;top:38px"></span>
+    <span class="stone b" style="left:62px;top:62px"></span>
+    <span class="stone w" style="left:86px;top:62px"></span>
+    <span class="stone b" style="left:86px;top:86px"></span>
+  </div>
+  <h1>Gomoku Valley</h1>
+  <p>You've been invited to a game of Gomoku: five in a row wins.</p>
+  <div class="code" id="code" hidden><small>Room code</small><span></span></div>
+  <a class="button" id="web" href="/gomokuvalley/">Play now in your browser</a>
+  <a class="button" href="https://play.google.com/store/apps/details?id=com.daigame.gomokuvalley">Get it on Google Play</a>
+  <p class="hint" id="hint" hidden>Already have the app? Open it, go to Multiplayer and join with the room code above.</p>
+</main>
+<script>
+  var room = new URLSearchParams(location.search).get('room');
+  if (room && /^[A-Za-z0-9]{4,12}$/.test(room)) {
+    var box = document.getElementById('code');
+    box.querySelector('span').textContent = room.toUpperCase();
+    box.hidden = false;
+    document.getElementById('hint').hidden = false;
+    document.getElementById('web').href =
+      '/gomokuvalley/?room=' + encodeURIComponent(room.toUpperCase());
+  }
+</script>
+</body>
+</html>

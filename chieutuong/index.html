@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chiếu Tướng Invite</title>
+<meta name="description" content="You've been invited to a game of Chinese chess (xiangqi) in Chiếu Tướng.">
+<style>
+  :root { --rosewood: #2a1a12; --brass: #c9a45c; --paper: #f1e8d4; --seal: #a8322a; --ink: #fff8e8; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center;
+    justify-content: center; padding: 24px 16px;
+    background: radial-gradient(circle at 50% 20%, #4a2e22, var(--rosewood));
+    color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    text-align: center;
+  }
+  main { width: 100%; max-width: 380px; }
+  .seal {
+    width: 96px; height: 96px; margin: 0 auto 20px; border-radius: 50%;
+    background: var(--paper); border: 4px solid var(--seal);
+    box-shadow: 0 0 0 3px var(--paper) inset, 0 8px 24px #0008;
+    display: flex; align-items: center; justify-content: center;
+    font: 900 52px/1 "KaiTi", "STKaiti", "Kaiti TC", serif; color: var(--seal);
+  }
+  h1 { margin: 0 0 8px; font-size: 28px; color: var(--brass); }
+  p { margin: 0 0 20px; line-height: 1.5; opacity: 0.9; }
+  .code {
+    display: inline-block; margin: 0 0 20px; padding: 10px 18px; border-radius: 12px;
+    background: #ffffff14; border: 1px solid #ffffff33;
+    font-size: 26px; font-weight: 900; letter-spacing: 4px;
+  }
+  .code small { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0; opacity: 0.7; }
+  a.button {
+    display: block; padding: 16px; border-radius: 999px; text-decoration: none;
+    background: var(--brass); color: var(--rosewood); font-weight: 900; font-size: 18px;
+  }
+  a.button + a.button { margin-top: 12px; background: #ffffff1f; color: var(--ink); border: 1px solid #ffffff4d; }
+  .hint { margin-top: 16px; font-size: 13px; opacity: 0.7; }
+</style>
+</head>
+<body>
+<main>
+  <div class="seal" aria-hidden="true">帥</div>
+  <h1>Chiếu Tướng</h1>
+  <p data-t="intro">You've been invited to a game of Chinese chess.</p>
+  <div class="code" id="code" hidden><small data-t="code">Room code</small><span></span></div>
+  <a class="button" id="open" href="#" hidden data-t="open">Open in the app</a>
+  <a class="button" id="store" href="https://play.google.com/store/apps/details?id=com.dd.chieutuong" data-t="store">Get it on Google Play</a>
+  <a class="button" id="web" href="/chieutuong/play/" data-t="web">Play in your browser</a>
+  <p class="hint" id="hint" hidden data-t="hint">No app? Play in your browser and you'll join the room automatically. In the app you can also join with the room code above.</p>
+</main>
+<script>
+  var T = {
+    vi: {
+      intro: 'Bạn được mời vào chơi một ván cờ tướng.',
+      code: 'Mã phòng', open: 'Mở trong ứng dụng', store: 'Tải trên Google Play',
+      web: 'Chơi trên trình duyệt',
+      hint: 'Chưa có ứng dụng? Chơi trên trình duyệt sẽ tự vào phòng. Trong ứng dụng, bạn cũng có thể nhập mã phòng ở trên.'
+    },
+    zh: {
+      intro: '你受邀來下一盤象棋。',
+      code: '房號', open: '在應用中開啟', store: '在 Google Play 下載',
+      web: '在瀏覽器中遊玩',
+      hint: '沒有應用？在瀏覽器中遊玩會自動加入房間。在應用中也可輸入上方房號加入。'
+    }
+  };
+  var lang = (navigator.language || 'en').slice(0, 2);
+  if (T[lang]) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-t]').forEach(function (el) {
+      el.textContent = T[lang][el.getAttribute('data-t')];
+    });
+  }
+  var room = new URLSearchParams(location.search).get('room');
+  if (room && /^[A-Za-z0-9]{4,12}$/.test(room)) {
+    room = room.toUpperCase();
+    var box = document.getElementById('code');
+    box.querySelector('span').textContent = room;
+    box.hidden = false;
+    document.getElementById('hint').hidden = false;
+    // The browser build here reads ?room= and joins on start.
+    document.getElementById('web').href = '/chieutuong/play/?room=' + encodeURIComponent(room);
+    // Android: hand the room to the app, or the store when it's not installed.
+    if (/Android/i.test(navigator.userAgent)) {
+      var open = document.getElementById('open');
+      open.href = 'intent://join?room=' + encodeURIComponent(room) +
+        '#Intent;scheme=chieutuong;package=com.dd.chieutuong;S.browser_fallback_url=' +
+        encodeURIComponent(document.getElementById('store').href) + ';end';
+      open.hidden = false;
+    }
+  }
+</script>
+</body>
+</html>
