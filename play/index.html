@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gomoku Valley Invite</title>
+<meta name="description" content="You've been invited to a game of Gomoku in Gomoku Valley.">
+<style>
+  :root { --sea: #102c40; --gold: #f4c553; --wood: #e2b873; --ink: #fff8e8; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center;
+    justify-content: center; padding: 24px 16px;
+    background: radial-gradient(circle at 50% 20%, #1c4a68, var(--sea));
+    color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    text-align: center;
+  }
+  main { width: 100%; max-width: 380px; }
+  .board {
+    width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 18px;
+    background:
+      repeating-linear-gradient(0deg, transparent 0 23px, #5a3a1a 23px 24px),
+      repeating-linear-gradient(90deg, transparent 0 23px, #5a3a1a 23px 24px),
+      var(--wood);
+    position: relative; box-shadow: 0 8px 24px #0006;
+  }
+  .stone { position: absolute; width: 20px; height: 20px; border-radius: 50%; }
+  .b { background: radial-gradient(circle at 35% 30%, #6a717c, #07090c); }
+  .w { background: radial-gradient(circle at 35% 30%, #fff, #a9b0ba); }
+  h1 { margin: 0 0 8px; font-size: 28px; color: var(--gold); }
+  p { margin: 0 0 20px; line-height: 1.5; opacity: 0.9; }
+  .code {
+    display: inline-block; margin: 0 0 20px; padding: 10px 18px; border-radius: 12px;
+    background: #ffffff14; border: 1px solid #ffffff33;
+    font-size: 26px; font-weight: 900; letter-spacing: 4px;
+  }
+  .code small { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0; opacity: 0.7; }
+  a.button {
+    display: block; padding: 16px; border-radius: 999px; text-decoration: none;
+    background: var(--gold); color: var(--sea); font-weight: 900; font-size: 18px;
+  }
+  a.button + a.button { margin-top: 12px; background: #ffffff1f; color: var(--ink); border: 1px solid #ffffff4d; }
+  .hint { margin-top: 16px; font-size: 13px; opacity: 0.7; }
+</style>
+</head>
+<body>
+<main>
+  <div class="board" aria-hidden="true">
+    <span class="stone b" style="left:14px;top:14px"></span>
+    <span class="stone b" style="left:38px;top:38px"></span>
+    <span class="stone w" style="left:62px;top:38px"></span>
+    <span class="stone b" style="left:62px;top:62px"></span>
+    <span class="stone w" style="left:86px;top:62px"></span>
+    <span class="stone b" style="left:86px;top:86px"></span>
+  </div>
+  <h1>Gomoku Valley</h1>
+  <p data-i18n="intro">You've been invited to a game of Gomoku: five in a row wins.</p>
+  <div class="code" id="code" hidden><small data-i18n="code">Room code</small><span></span></div>
+  <a class="button" id="web" href="/gomokuvalley/" data-i18n="play">Play now in your browser</a>
+  <a class="button" data-i18n="store" href="https://play.google.com/store/apps/details?id=com.daigame.gomokuvalley">Get it on Google Play</a>
+  <p class="hint" id="hint" data-i18n="hint" hidden>Already have the app? Open it, go to Multiplayer and join with the room code above.</p>
+</main>
+<script>
+  // Text in the friend's language: ?lang=xx, else the browser's, else
+  // English (the text already in the page). Same 10 languages as the app.
+  var T = {
+    vi: ['Bạn được mời chơi một ván cờ caro: ai xếp được 5 quân liên tiếp trước sẽ thắng.', 'Mã phòng', 'Chơi ngay trên trình duyệt', 'Tải trên Google Play', 'Đã có ứng dụng? Mở ứng dụng, vào Nhiều người chơi và nhập mã phòng ở trên.'],
+    es: ['Te han invitado a una partida de Gomoku: gana quien ponga cinco en línea.', 'Código de sala', 'Jugar ahora en el navegador', 'Disponible en Google Play', '¿Ya tienes la app? Ábrela, ve a Multijugador y únete con el código de sala de arriba.'],
+    pt: ['Você foi convidado para uma partida de Gomoku: vence quem fizer cinco em linha.', 'Código da sala', 'Jogar agora no navegador', 'Disponível no Google Play', 'Já tem o app? Abra, vá em Multijogador e entre com o código da sala acima.'],
+    ru: ['Вас пригласили сыграть в гомоку: побеждает тот, кто первым выстроит пять в ряд.', 'Код комнаты', 'Играть в браузере', 'Скачать в Google Play', 'Уже есть приложение? Откройте его, зайдите в «Мультиплеер» и введите код комнаты выше.'],
+    de: ['Du wurdest zu einer Partie Gomoku eingeladen: Wer zuerst fünf in einer Reihe hat, gewinnt.', 'Raumcode', 'Jetzt im Browser spielen', 'Jetzt bei Google Play', 'Hast du die App schon? Öffne sie, geh zu Mehrspieler und tritt mit dem Raumcode oben bei.'],
+    fr: ['Tu es invité à une partie de Gomoku : le premier à aligner cinq pierres gagne.', 'Code du salon', 'Jouer dans le navigateur', 'Disponible sur Google Play', 'Tu as déjà l’appli ? Ouvre-la, va dans Multijoueur et rejoins avec le code du salon ci-dessus.'],
+    ja: ['五目並べの対局に招待されました。先に5つ並べた方の勝ち！', 'ルームコード', 'ブラウザですぐ遊ぶ', 'Google Play で手に入れよう', 'アプリをお持ちの方は、アプリを開いて「マルチプレイ」から上のルームコードで参加してください。'],
+    ko: ['오목 대국에 초대받았어요. 먼저 다섯 개를 놓으면 승리!', '방 코드', '브라우저에서 바로 플레이', 'Google Play에서 다운로드', '앱이 있나요? 앱을 열고 멀티플레이에서 위의 방 코드로 참여하세요.'],
+    zh: ['你被邀请来下一局五子棋：先连成五子者获胜。', '房间号', '在浏览器中立即开始', '在 Google Play 下载', '已经安装了应用？打开应用，进入“多人对战”，输入上方的房间号加入。']
+  };
+  var KEYS = ['intro', 'code', 'play', 'store', 'hint'];
+  function pickLang() {
+    var wanted = [new URLSearchParams(location.search).get('lang')]
+      .concat(navigator.languages || [navigator.language]);
+    for (var i = 0; i < wanted.length; i++) {
+      var l = String(wanted[i] || '').toLowerCase().split('-')[0];
+      if (l === 'en') return null;
+      if (T[l]) return l;
+    }
+    return null;
+  }
+  try {
+    var lang = pickLang();
+    if (lang) {
+      document.documentElement.lang = lang;
+      var els = document.querySelectorAll('[data-i18n]');
+      for (var j = 0; j < els.length; j++) {
+        var k = KEYS.indexOf(els[j].getAttribute('data-i18n'));
+        if (k >= 0) els[j].textContent = T[lang][k];
+      }
+    }
+  } catch (e) {
+    // Leave the English text.
+  }
+  var room = new URLSearchParams(location.search).get('room');
+  if (room && /^[A-Za-z0-9]{4,12}$/.test(room)) {
+    var box = document.getElementById('code');
+    box.querySelector('span').textContent = room.toUpperCase();
+    box.hidden = false;
+    document.getElementById('hint').hidden = false;
+    document.getElementById('web').href =
+      '/gomokuvalley/?room=' + encodeURIComponent(room.toUpperCase());
+  }
+</script>
+</body>
+</html>
