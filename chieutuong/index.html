@@ -8,6 +8,7 @@
 <style>
   :root { --rosewood: #2a1a12; --brass: #c9a45c; --paper: #f1e8d4; --seal: #a8322a; --ink: #fff8e8; }
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   body {
     margin: 0; min-height: 100vh; display: flex; align-items: center;
     justify-content: center; padding: 24px 16px;
@@ -35,7 +36,8 @@
     display: block; padding: 16px; border-radius: 999px; text-decoration: none;
     background: var(--brass); color: var(--rosewood); font-weight: 900; font-size: 18px;
   }
-  a.button + a.button { margin-top: 12px; background: #ffffff1f; color: var(--ink); border: 1px solid #ffffff4d; }
+  a.button + a.button, .sub + a.button { margin-top: 12px; background: #ffffff1f; color: var(--ink); border: 1px solid #ffffff4d; }
+  .sub { margin: 8px 0 6px; font-size: 13px; opacity: 0.8; }
   .hint { margin-top: 16px; font-size: 13px; opacity: 0.7; }
 </style>
 </head>
@@ -45,10 +47,11 @@
   <h1>Chiếu Tướng</h1>
   <p data-t="intro">You've been invited to a game of Chinese chess.</p>
   <div class="code" id="code" hidden><small data-t="code">Room code</small><span></span></div>
+  <a class="button" id="web" href="/chieutuong/play/" data-t="web">Play in your browser</a>
+  <p class="sub" data-t="sub">No install needed. It runs right here in your browser.</p>
   <a class="button" id="open" href="#" hidden data-t="open">Open in the app</a>
   <a class="button" id="store" href="https://play.google.com/store/apps/details?id=com.dd.chieutuong" data-t="store">Get it on Google Play</a>
-  <a class="button" id="web" href="/chieutuong/play/" data-t="web">Play in your browser</a>
-  <p class="hint" id="hint" hidden data-t="hint">No app? Play in your browser and you'll join the room automatically. In the app you can also join with the room code above.</p>
+  <p class="hint" id="hint" hidden data-t="hint">The browser game joins the room automatically. Already have the app? Open it, or join with the room code above.</p>
 </main>
 <script>
   var T = {
@@ -56,13 +59,15 @@
       intro: 'Bạn được mời vào chơi một ván cờ tướng.',
       code: 'Mã phòng', open: 'Mở trong ứng dụng', store: 'Tải trên Google Play',
       web: 'Chơi trên trình duyệt',
-      hint: 'Chưa có ứng dụng? Chơi trên trình duyệt sẽ tự vào phòng. Trong ứng dụng, bạn cũng có thể nhập mã phòng ở trên.'
+      sub: 'Không cần cài đặt. Chơi ngay trên trình duyệt này.',
+      hint: 'Bản trình duyệt sẽ tự vào phòng. Đã có ứng dụng? Mở ứng dụng, hoặc nhập mã phòng ở trên.'
     },
     zh: {
       intro: '你受邀來下一盤象棋。',
       code: '房號', open: '在應用中開啟', store: '在 Google Play 下載',
       web: '在瀏覽器中遊玩',
-      hint: '沒有應用？在瀏覽器中遊玩會自動加入房間。在應用中也可輸入上方房號加入。'
+      sub: '免安裝，直接在瀏覽器中開始。',
+      hint: '瀏覽器版會自動加入房間。已有應用？打開應用，或輸入上方房號加入。'
     }
   };
   var lang = (navigator.language || 'en').slice(0, 2);
