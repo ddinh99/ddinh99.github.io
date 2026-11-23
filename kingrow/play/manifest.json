@@ -5,7 +5,7 @@
     "display": "standalone",
     "background_color": "#0A1420",
     "theme_color": "#16324A",
-    "description": "Kingrow game.",
+    "description": "Play checkers online with friends, against AI rivals, or solve daily puzzles.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
