@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kingrow - Checkers &amp; Draughts</title>
+<meta name="description" content="A beautiful checkers game: 500 puzzle levels, rivals to beat, online play and a 3D board.">
+<meta property="og:title" content="Kingrow - Checkers &amp; Draughts">
+<meta property="og:description" content="A beautiful checkers game: 500 puzzle levels, rivals to beat, online play and a 3D board.">
+<meta property="og:image" content="https://ddinh99.github.io/kingrow/play/icons/Icon-512.png">
+<meta property="og:url" content="https://ddinh99.github.io/kingrow/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="play/icons/Icon-192.png">
+<script>
+  // Android goes straight to Google Play. iPhone/iPad and computers stay
+  // here: no App Store version yet, so they get the browser game.
+  (function () {
+    var play = 'https://play.google.com/store/apps/details?id=com.daigame.kingrow';
+    if (/android/i.test(navigator.userAgent) && location.hash !== '#stay') {
+      location.replace(play);
+    }
+  })();
+</script>
+<style>
+  :root { --bg:#1b130d; --panel:#2a1d13; --fg:#f2e8d6; --muted:#b9a88f; --brass:#e0a93e; --red:#b3262f; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; background:radial-gradient(ellipse at top, #3a2716 0%, var(--bg) 70%); color:var(--fg);
+         font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; display:flex; align-items:center; justify-content:center; }
+  main { width:100%; max-width:440px; padding:40px 16px; text-align:center; }
+  img { width:120px; height:120px; border-radius:26px; box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 0 2px var(--brass); }
+  h1 { font-size:1.7em; margin:20px 0 6px; letter-spacing:.3px; }
+  p { color:var(--muted); margin:0 0 28px; }
+  a.btn { display:block; padding:15px 18px; margin:12px 0; border-radius:14px; font-weight:800; font-size:1.05em;
+          text-decoration:none; color:#fff; background:var(--red); box-shadow:0 4px 0 #6e1218; }
+  a.btn.alt { background:var(--panel); color:var(--fg); box-shadow:0 4px 0 #120c08, inset 0 0 0 2px var(--brass); }
+  a.btn:active { transform:translateY(3px); box-shadow:none; }
+  .small { font-size:.85em; margin-top:26px; }
+  .small a { color:var(--brass); }
+</style>
+</head>
+<body>
+<main>
+  <img src="play/icons/Icon-512.png" alt="Kingrow icon">
+  <h1>Kingrow</h1>
+  <p>Checkers &amp; Draughts: 500 puzzle levels, rivals to beat, online play and a 3D board.</p>
+  <a class="btn" href="https://play.google.com/store/apps/details?id=com.daigame.kingrow">Get it on Google Play</a>
+  <a class="btn alt" href="play/">Play in your browser</a>
+  <p class="small">iPhone version coming soon · <a href="privacy/">Privacy</a></p>
+</main>
+</body>
+</html>
